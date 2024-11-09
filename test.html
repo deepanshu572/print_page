@@ -4,158 +4,70 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="style.css">
-        <style>
-          :root {
-    --height-fit-content-plus-10px: calc(fit-content + 10px);
-}
-            
-          * {
-              padding:0;
-              margin:0;
-    font-size: 12px;
-    font-family: 'Times New Roman';
-}
-            body{
-                background-color:red;
-                height: 300px;
-                overflow: hidden;
-            }
-
-td,
-th,
-tr,
-table {
-    border-top: 1px solid black;
-    border-collapse: collapse;
-}
-
-td.description,
-th.description {
-    width: 75px;
-    max-width: 75px;
-}
-
-td.quantity,
-th.quantity {
-    width: 40px;
-    max-width: 40px;
-    word-break: break-all;
-}
-
-td.price,
-th.price {
-    width: 40px;
-    max-width: 40px;
-    word-break: break-all;
-}
-
-.centered {
-    text-align: center;
-    align-content: center;
-}
-
-.ticket {
-    width: 155px;
-    max-width: 155px;
-     height: var(--height-fit-content-plus-10px);
-    background-color:red;
-}
-
-img {
-    max-width: inherit;
-    width: inherit;
-}
-
-@media print {
-    .hidden-print,
-    .hidden-print * {
-        display: none !important;
-    }
-    body{
-            height: 300px;
-    overflow: hidden;
-    }
-}
-          
-          
-        </style>
         <title>Receipt example</title>
+        <style>
+            /* Default Print Styles */
+.print-layout {
+    font-size: 12px;
+    padding: 10px;
+}
+
+/* A4 Printer */
+.print-layout.A4 {
+    width: 210mm;
+    height: 297mm;
+    font-size: 14px;
+    padding: 20px;
+}
+
+/* Receipt Printer */
+.print-layout.receipt {
+    width: 80mm;
+    font-size: 10px;
+    padding: 5px;
+}
+
+/* Label Printer */
+.print-layout.label {
+    width: 100mm;
+    height: 50mm;
+    font-size: 12px;
+    padding: 8px;
+}
+
+        </style>
     </head>
     <body>
-        <div class="ticket">
-            <img src="./logo.png" alt="Logo">
-            <p class="centered">RECEIPT EXAMPLE
-                <br>Address line 1
-                <br>Address line 2</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th class="quantity">Q.</th>
-                        <th class="description">Description</th>
-                        <th class="price">$$</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="quantity">1.00</td>
-                        <td class="description">ARDUINO UNO R3</td>
-                        <td class="price">$25.00</td>
-                    </tr>
-                    <tr>
-                        <td class="quantity">2.00</td>
-                        <td class="description">JAVASCRIPT BOOK</td>
-                        <td class="price">$10.00</td>
-                    </tr>
-                    <tr>
-                        <td class="quantity">1.00</td>
-                        <td class="description">STICKER PACK</td>
-                        <td class="price">$10.00</td>
-                    </tr>
-                    <tr>
-                        <td class="quantity"></td>
-                        <td class="description">TOTAL</td>
-                        <td class="price">$55.00</td>
-                    </tr> 
-                    <tr>
-                        <td class="quantity"></td>
-                        <td class="description">TOTAL</td>
-                        <td class="price">$55.00</td>
-                    </tr>
-                     <tr>
-                        <td class="quantity"></td>
-                        <td class="description">TOTAL</td>
-                        <td class="price">$55.00</td>
-                    </tr>
-                      <tr>
-                        <td class="quantity">2.00</td>
-                        <td class="description">JAVASCRIPT BOOK</td>
-                        <td class="price">$10.00</td>
-                    </tr>
-                      <tr>
-                        <td class="quantity">2.00</td>
-                        <td class="description">JAVASCRIPT BOOK</td>
-                        <td class="price">$10.00</td>
-                    </tr>
-                      <tr>
-                        <td class="quantity">2.00</td>
-                        <td class="description">JAVASCRIPT BOOK</td>
-                        <td class="price">$10.00</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p class="centered">Thanks for your purchase!
-                <br>parzibyte.me/blog</p>
-        </div>
-        <button id="btnPrint" class="hidden-print">Print</button>
-        <script src="script.js"></script>
-        
+        <button onclick="selectPrinterAndPrint()">Print</button>
+
+
         <script>
-          const $btnPrint = document.querySelector("#btnPrint");
-$btnPrint.addEventListener("click", () => {
+            // Function to set the appropriate class based on printer type
+function setPrintLayout(printerType) {
+    const printLayoutElement = document.querySelector('.print-layout');
+
+    // Clear any existing printer class
+    printLayoutElement.classList.remove('A4', 'receipt', 'label');
+
+    // Add the selected printer class
+    if (printerType === 'A4') {
+        printLayoutElement.classList.add('A4');
+    } else if (printerType === 'receipt') {
+        printLayoutElement.classList.add('receipt');
+    } else if (printerType === 'label') {
+        printLayoutElement.classList.add('label');
+    }
+}
+
+// Example: Prompt user to select printer type before printing
+function selectPrinterAndPrint() {
+    const printerType = prompt('Select printer type: A4, receipt, or label');
+    setPrintLayout(printerType);
+
+    // Trigger the print dialog
     window.print();
-});
-          
+}
+
         </script>
     </body>
 </html>
