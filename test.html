@@ -1,73 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Receipt example</title>
-        <style>
-            /* Default Print Styles */
-.print-layout {
-    font-size: 12px;
-    padding: 10px;
-}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Print Layout Example</title>
+    <style>
+        /* Default Print Styles */
+        .print-layout {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            padding: 10px;
+            width: fit-content;
+            margin: auto;
+            border: 1px solid #000;
+        }
 
-/* A4 Printer */
-.print-layout.A4 {
-    width: 210mm;
-    height: 297mm;
-    font-size: 14px;
-    padding: 20px;
-}
+        /* A4 Printer Styles */
+        .print-layout.A4 {
+            width: 210mm;
+            height: 297mm;
+            font-size: 14px;
+            padding: 20px;
+        }
 
-/* Receipt Printer */
-.print-layout.receipt {
-    width: 80mm;
-    font-size: 10px;
-    padding: 5px;
-}
+        /* Receipt Printer Styles */
+        .print-layout.receipt {
+            width: 80mm;
+            font-size: 10px;
+            padding: 5px;
+        }
 
-/* Label Printer */
-.print-layout.label {
-    width: 100mm;
-    height: 50mm;
-    font-size: 12px;
-    padding: 8px;
-}
+        /* Label Printer Styles */
+        .print-layout.label {
+            width: 100mm;
+            height: 50mm;
+            font-size: 12px;
+            padding: 8px;
+        }
 
-        </style>
-    </head>
-    <body>
+        /* Hide elements on screen only */
+        @media screen {
+            .only-print { display: none; }
+        }
+
+        /* Hide non-print elements on print */
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-layout no-print">
         <button onclick="selectPrinterAndPrint()">Print</button>
+    </div>
 
+    <!-- Content to be printed with dynamic layout -->
+    <div class="print-layout" id="print-content">
+        <h1>Invoice</h1>
+        <p>Store Name: Demo Store</p>
+        <p>Order ID: ORD123456789</p>
+        <p>Customer: John Doe</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Item A</td>
+                    <td>$10.00</td>
+                    <td>2</td>
+                    <td>$20.00</td>
+                </tr>
+                <tr>
+                    <td>Item B</td>
+                    <td>$5.00</td>
+                    <td>3</td>
+                    <td>$15.00</td>
+                </tr>
+            </tbody>
+        </table>
 
-        <script>
-            // Function to set the appropriate class based on printer type
-function setPrintLayout(printerType) {
-    const printLayoutElement = document.querySelector('.print-layout');
+        <p><strong>Total Amount: $35.00</strong></p>
+    </div>
 
-    // Clear any existing printer class
-    printLayoutElement.classList.remove('A4', 'receipt', 'label');
+    <script>
+        function setPrintLayout(printerType) {
+            const printContent = document.getElementById('print-content');
 
-    // Add the selected printer class
-    if (printerType === 'A4') {
-        printLayoutElement.classList.add('A4');
-    } else if (printerType === 'receipt') {
-        printLayoutElement.classList.add('receipt');
-    } else if (printerType === 'label') {
-        printLayoutElement.classList.add('label');
-    }
-}
+            // Clear existing layout classes
+            printContent.classList.remove('A4', 'receipt', 'label');
 
-// Example: Prompt user to select printer type before printing
-function selectPrinterAndPrint() {
-    const printerType = prompt('Select printer type: A4, receipt, or label');
-    setPrintLayout(printerType);
+            // Apply selected printer type layout
+            if (printerType === 'A4') {
+                printContent.classList.add('A4');
+            } else if (printerType === 'receipt') {
+                printContent.classList.add('receipt');
+            } else if (printerType === 'label') {
+                printContent.classList.add('label');
+            }
+        }
 
-    // Trigger the print dialog
-    window.print();
-}
+        // Function to prompt user for printer type and apply layout
+        function selectPrinterAndPrint() {
+            const printerType = prompt('Select printer type: A4, receipt, or label').toLowerCase();
+            setPrintLayout(printerType);
 
-        </script>
-    </body>
+            // Trigger the print dialog
+            window.print();
+        }
+    </script>
+</body>
 </html>
