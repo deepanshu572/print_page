@@ -6,7 +6,9 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="style.css">
         <style>
-          
+          :root {
+    --height-fit-content-plus-10px: calc(fit-content + 10px);
+}
           * {
     font-size: 12px;
     font-family: 'Times New Roman';
@@ -48,6 +50,7 @@ th.price {
 .ticket {
     width: 155px;
     max-width: 155px;
+     height: var(--height-fit-content-plus-10px);
 }
 
 img {
